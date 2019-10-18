@@ -1,0 +1,128 @@
+{% extends "store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} Store {% endblock %}
+
+{% block content %}
+<section class="section-main bg padding-top-sm">
+	<div class="container">
+
+		<div class="row-sm">
+			<div class="col-md-8">
+				<!-- Collection Slider -->
+				<div class="owl-init slider-main owl-carousel" data-items="1" data-dots="false" data-nav="true">
+					<div class="item-slide">
+						<img src="{% static 'images/banners/slide1.jpg' %}">
+					</div>
+					<div class="item-slide rounded">
+						<img src="{% static 'images/banners/slide2.jpg' %}">
+					</div>
+					<div class="item-slide rounded">
+						<img src="{% static 'images/banners/slide3.jpg' %}">
+					</div>
+				</div>
+			</div>
+			<aside class="col-md-4">
+
+				<div class="card mb-3">
+					<figure class="itemside">
+						<div class="aside"><div class="img-wrap p-2 border-right"><img class="img-sm" src="{% static 'images/items/1.jpg' %}"></div></div>
+						<figcaption class="text-wrap align-self-center">
+							<h6 class="title">Group of products is here </h6>
+							<a href="#">More items</a>
+						</figcaption>
+					</figure>
+				</div>
+
+				<div class="card mb-3">
+					<figure class="itemside">
+						<div class="aside"><div class="img-wrap p-2 border-right"><img class="img-sm" src="{% static 'images/items/2.jpg' %}"></div></div>
+						<figcaption class="text-wrap align-self-center">
+							<h6 class="title">Group of products  is here </h6>
+							<a href="#">More items</a>
+						</figcaption>
+					</figure>
+				</div> 
+
+				<div class="card">
+					<figure class="itemside">
+						<div class="aside"><div class="img-wrap p-2 border-right"><img class="img-sm" src="{% static 'images/items/3.jpg' %}"></div></div>
+						<figcaption class="text-wrap align-self-center">
+							<h6 class="title">Group of products is here </h6>
+							<a href="#">More items</a>
+						</figcaption>
+					</figure>
+				</div>
+
+			</aside>
+		</div>
+	</div>
+</section>
+
+<section class="section-content padding-y bg">
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+
+				<!-- Top Sellers -->
+				<header class="section-heading">
+					<h3 class="title-section">Top sellers</h3>
+				</header>
+
+				<div class="row">
+					<!-- Loop through top_sellers queryset -->
+					{% for product in top_sellers %}
+					<div class="col-md-3">
+						<figure class="card card-product">
+							<div class="img-wrap"> 
+								<img src="{% static 'images/items/3.jpg' %}">
+								<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+							</div>
+							<figcaption class="info-wrap">
+								<a href="#" class="title">{{product.name}}</a>
+								<div class="action-wrap">
+									<a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
+									<div class="price-wrap h5">
+										<span class="price-new">R${{product.price}}</span>
+										<del class="price-old">$1980</del>
+									</div>
+								</div>
+							</figcaption>
+						</figure>
+					</div>
+					{% endfor %}
+				</div> 
+
+				<!-- Best Reviews -->
+				<header class="section-heading">
+					<h3 class="title-section">Best reviews</h3>
+				</header>
+
+				<div class="row">
+					<!-- Loop through best_reviews queryset -->
+					{% for product in best_reviews %}
+					<div class="col-md-3">
+						<figure class="card card-product">
+							<div class="img-wrap"> 
+								<img src="{% static 'images/items/4.jpg' %}">
+								<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+							</div>
+							<figcaption class="info-wrap">
+								<a href="#" class="title">{{product.name}}</a>
+								<div class="action-wrap">
+									<a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
+									<div class="price-wrap h5">
+										<span class="price-new">R${{product.price}}</span>
+										<del class="price-old">$1980</del>
+									</div>
+								</div>
+							</figcaption>
+						</figure>
+					</div>
+					{% endfor %}
+				</div> 
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
