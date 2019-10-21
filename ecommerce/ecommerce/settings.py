@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ecommerce.processors.ip_address_processor,
             ],
         },
     },
@@ -126,7 +127,7 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET = True
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/store/'
 
 
 # Internationalization

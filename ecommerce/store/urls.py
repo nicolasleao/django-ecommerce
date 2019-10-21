@@ -4,6 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.StoreLanding, name='StoreLanding'),
-    path('search/<str:category_id>', views.StoreSearch, name='StoreSearch'),
+    path('store/', views.StoreLanding.as_view(), name='store-landing'),
+    path('store/search', views.ProductSearchView.as_view(), name='product-list'),
 ]
