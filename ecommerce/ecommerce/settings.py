@@ -73,7 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'ecommerce.processors.ip_address_processor,
+                'ecommerce.processors.shopping_cart_processor',
             ],
         },
     },

@@ -6,7 +6,6 @@
 {% block content %}
 <section class="section-main bg padding-top-sm">
 	<div class="container">
-
 		<div class="row-sm">
 			<div class="col-md-11 ml-auto mr-auto">
 				<!-- Collection Slider -->
@@ -22,7 +21,6 @@
 					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 </section>
@@ -47,11 +45,16 @@
 								<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
 							</div>
 							<figcaption class="info-wrap">
-								<a href="#" class="title">{{product.name}}</a>
+								<a href="#" class="title">{{ product.name }}</a>
 								<div class="action-wrap">
-									<a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
+
+									<form method="post" action="{% url 'add-to-cart' %}">
+										{% csrf_token %}
+										<input type="hidden" name="product_id" value="{{ product.id }}" />
+										<button type="submit" class="btn btn-warning btn-sm float-right"> Add to cart </button>
+									</form>
 									<div class="price-wrap h5">
-										<span class="price-new">R${{product.price}}</span>
+										<span class="price-new">R${{ product.price }}</span>
 										<del class="price-old">$1980</del>
 									</div>
 								</div>
@@ -76,11 +79,11 @@
 								<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
 							</div>
 							<figcaption class="info-wrap">
-								<a href="#" class="title">{{product.name}}</a>
+								<a href="#" class="title">{{ product.name }}</a>
 								<div class="action-wrap">
 									<a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
 									<div class="price-wrap h5">
-										<span class="price-new">R${{product.price}}</span>
+										<span class="price-new">R${{ product.price }}</span>
 										<del class="price-old">$1980</del>
 									</div>
 								</div>
@@ -88,7 +91,7 @@
 						</figure>
 					</div>
 					{% endfor %}
-				</div> 
+				</div>
 			</div>
 		</div>
 	</div>
