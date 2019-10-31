@@ -1,6 +1,8 @@
 from django.template import RequestContext, Template
 from store.models import Cart
 
+# TODO:
+# Working category_name_processor
 
 def shopping_cart_processor(request):
     # Try to get the 'cart' instance associated with the current user from the database
@@ -11,3 +13,7 @@ def shopping_cart_processor(request):
         cart = None
 
     return {'cart': cart}
+
+
+def category_name_processor(request):
+	return None
