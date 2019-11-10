@@ -23,7 +23,7 @@ class AddToCart(View):
         item = cart.add_item(product_id)
         print("added item "+item.product.name)
         # Redirect to store homepage
-        return redirect('store-landing')
+        return redirect('store-home')
 
 
 class RemoveFromCart(View):
@@ -34,11 +34,11 @@ class RemoveFromCart(View):
         item = cart.remove_item(item_id)
         print("removed item "+item.product.name)
         # Redirect to store homepage
-        return redirect('store-landing')
+        return redirect('store-home')
 
 
 # Index page for regular users and guests
-class StoreLanding(View):
+class StoreHome(View):
 
     def get(self, request, *args, **kwargs):
         # Make queries
@@ -64,7 +64,7 @@ class StoreLanding(View):
             'top_sellers': top_sellers,
             'best_reviews': best_reviews,
         }
-        return render(request, 'store/store_landing.html', context)
+        return render(request, 'store/store_home.html', context)
 
 
 # Query products with a querystring 'q'

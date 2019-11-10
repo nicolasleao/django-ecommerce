@@ -5,8 +5,8 @@ from . import views
 
 urlpatterns = [
 	# Store routes
-    path('store/', views.StoreLanding.as_view(), name='store-landing'),
-    path('store/search/<str:category_id>/', views.ProductSearchView.as_view(), name='product-list'),
+    path('store/', views.StoreHome.as_view(), name='store-home'),
+    path('store/search/<str:category_name>/', views.ProductSearchView.as_view(), name='product-list'),
 
     # Checkout routes
     path('checkout/', views.Checkout, name='checkout'),
