@@ -39,11 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # Local
-    'users',
-    'administration',
-    'payments',
-    'landing',
-    'store',
+    'app_users',
+    'app_admin',
+    'app_payments',
+    'app_store',
     # 3rd party
     'allauth',
     'allauth.account',
@@ -96,7 +95,7 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Authentication
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'app_users.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

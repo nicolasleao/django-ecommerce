@@ -1,0 +1,75 @@
+{% extends "app_store/base.html" %}
+{% load staticfiles %}
+
+{% block title %} LOJA {% endblock %}
+
+{% block content %}
+<section class="section-main bg padding-top-sm">
+	<div class="container">
+		<div class="row-sm">
+			<div class="col-md-11 ml-auto mr-auto">
+				<!-- Collection Slider -->
+				<div class="owl-init slider-main owl-carousel" data-items="1" data-dots="false" data-nav="true">
+					<div class="item-slide">
+						<img src="{% static 'images/banners/slide1.jpg' %}">
+					</div>
+					<div class="item-slide rounded">
+						<img src="{% static 'images/banners/slide2.jpg' %}">
+					</div>
+					<div class="item-slide rounded">
+						<img src="{% static 'images/banners/slide3.jpg' %}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section-content padding-y bg">
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+
+				<!-- Top Sellers -->
+				<header class="section-heading">
+					<h3 class="title-section">Top sellers</h3>
+				</header>
+
+				<div class="row">
+					<!-- Loop through top_sellers queryset -->
+					{% for product in top_sellers %}
+					<div class="col-md-3">
+						<figure class="card card-product">
+							<div class="img-wrap"> 
+								<img src="{% static 'images/items/3.jpg' %}">
+								<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+							</div>
+							<figcaption class="info-wrap">
+								<a href="#" class="title">{{ product.name }}</a>
+								<div class="action-wrap">
+
+									<form method="post" action="{% url 'add-to-cart' %}">
+										{% csrf_token %}
+										<input type="hidden" name="product_id" value="{{ product.id }}" />
+										<button type="submit" class="btn btn-warning btn-sm float-right"> Add to cart </button>
+									</form>
+									<div class="price-wrap h5">
+										<span class="price-new">R${{ product.price_new }}</span>
+
+										<!-- Show old price if item is in a sale -->
+										{% if product.price_old > product.price_new %}
+											<del class="price-old">R${{ product.price_old }}</del>
+										{% endif %}
+									</div>
+								</div>
+							</figcaption>
+						</figure>
+					</div>
+					{% endfor %}
+				</div> 
+
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

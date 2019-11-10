@@ -1,5 +1,5 @@
 from django.template import RequestContext, Template
-from store.models import Cart
+from app_store.models import Cart
 
 # TODO:
 # Working category_name_processor
