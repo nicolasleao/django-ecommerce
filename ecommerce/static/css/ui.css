@@ -2250,4 +2250,7 @@ ul.row, ul.row-sm {
     display: block;
     margin-left: 0px; }
 
+.section-main {
+    min-height: 100vh;
+}
 /*# sourceMappingURL=ui.css.map */

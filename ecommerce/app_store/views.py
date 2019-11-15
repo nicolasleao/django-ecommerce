@@ -1,12 +1,12 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.views.generic.list import ListView
 from django.views.generic.base import View
-from django.forms.models import model_to_dict
-from allauth.account.forms import LoginForm
-from .models import Product, Category, Cart
+from django.views.generic.list import ListView
+
+from .models import Product, Cart
+
 
 # TODO: update cart views to use ajax (django-ajax package)
 
@@ -19,7 +19,6 @@ def get_user_cart(request):
         # If user has no Cart instance, create a new one and associate to request.user
         cart = Cart.objects.create(user=request.user)
         return cart
-
 
 class AddToCart(View):
     def post(self, request):
@@ -34,7 +33,7 @@ class AddToCart(View):
 
 class RemoveFromCart(View):
     def post(self, request):
-        # Add product to cart
+        # Remove product from cart
         cart = get_user_cart(request)
         item_id = request.POST.get('item_id')
         item = cart.remove_item(item_id)
@@ -45,20 +44,10 @@ class RemoveFromCart(View):
 
 # Index page for regular users and guests
 class StoreHome(View):
-
     def get(self, request, *args, **kwargs):
-        # Make queries
-        categories_on_navbar = 3
-        # Get the first n categories on database, n = categories_on_navbar
-        categories = Category.objects.all()[:categories_on_navbar]
-        # Get the last n categories on database
-        categories_more = Category.objects.all()[categories_on_navbar:]
-
+        # Get top sellers
         top_sellers = Product.objects.all().order_by('total_sales')[:4]
-
         context = {
-            'categories': categories,
-            'categories_more': categories_more,
             'top_sellers': top_sellers,
         }
         return render(request, 'app_store/store_home.html', context)
@@ -66,7 +55,6 @@ class StoreHome(View):
 
 # Query products with a querystring 'q'
 class ProductSearchView(ListView):
-
     paginate_by = 30
 
     # Fetch query string from request.GET
@@ -75,12 +63,6 @@ class ProductSearchView(ListView):
 
     # Define context for the template
     def get_context_data(self, **kwargs):
-        # Make queries
-        categories_on_navbar = 3
-        # Get the first n categories on database, n = categories_on_navbar
-        categories = Category.objects.all()[:categories_on_navbar]
-        # Get the last n categories on database
-        categories_more = Category.objects.all()[categories_on_navbar:]
         # Get search query
         query = self.request.GET.get('q')
         # Get current category
@@ -93,9 +75,13 @@ class ProductSearchView(ListView):
         context['now'] = timezone.now()
         context['query'] = query
         context['category'] = category
-        context['categories'] = categories
-        context['categories_more'] = categories_more
         return context
+
+
+class ShoppingCart(View):
+    def get(self, request):
+        context = {}
+        return render(request, 'app_store/shopping_cart.html', context)
 
 # Checkout view
 def Checkout(request):

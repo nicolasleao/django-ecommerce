@@ -1,12 +1,14 @@
-from django.contrib import admin
 from django.urls import path
 from . import views
+from django.urls import path
 
+from . import views
 
 urlpatterns = [
 	# Store routes
     path('store/', views.StoreHome.as_view(), name='store-home'),
-    path('store/search/<str:category_name>/', views.ProductSearchView.as_view(), name='product-list'),
+    path('cart/', views.ShoppingCart.as_view(), name='shopping-cart'),
+    path('search/<str:category_name>/', views.ProductSearchView.as_view(), name='product-list'),
 
     # Checkout routes
     path('checkout/', views.Checkout, name='checkout'),

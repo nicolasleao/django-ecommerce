@@ -4,46 +4,44 @@
 {% block title %} Results: {{ query }} {% endblock %}
 
 {% block content %}
-<section class="section-main bg padding-top-sm">
-	<div class="container">
-
-		<header class="section-heading">
-			{% if category %}
-				{% if not category == 'Tudo' %}
-				<h3 class="title-section text-muted">{{ category }}</h3>
-				{% endif %}
-			{% endif %}
-			{% if query %}
-			<h3 class="title-section text-muted">Results: {{ query }}</h3>
-			{% else %}
-			<h5 class="title-section text-muted">Todos os produtos</h5>
-			{% endif %}
-		</header><br>
-		<div class="row">
-			<!-- Loop through top_sellers queryset -->
-			{% for product in object_list %}
-			<div class="col-md-3">
-				<figure class="card card-product">
-					<div class="img-wrap"> 
-						<img src="{% static 'images/items/3.jpg' %}">
-						<a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-					</div>
-					<figcaption class="info-wrap">
-						<a href="#" class="title">{{ product.name }}</a>
-						<div class="action-wrap">
-							<a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
-							<div class="price-wrap h5">
-								<span class="price-new">R${{ product.price_new }}</span>
-								{% if not product.price_old == 0 %}
-								<del class="price-old">R${{ product.price_old }}</del>
-								{% endif %}
-							</div>
-						</div>
-					</figcaption>
-				</figure>
-			</div>
-			{% endfor %}
-		</div> 
-	</div>
-</section>
+    <div class="container">
+        <header class="section-heading">
+            {% if category %}
+                {% if not category == 'Tudo' %}
+                    <h3 class="title-section text-muted">{{ category }}</h3>
+                {% endif %}
+            {% endif %}
+            {% if query %}
+                <h3 class="title-section text-muted">Results: {{ query }}</h3>
+            {% else %}
+                <h5 class="title-section text-muted">Todos os produtos</h5>
+            {% endif %}
+        </header>
+        <br>
+        <div class="row">
+            <!-- Loop through top_sellers queryset -->
+            {% for product in object_list %}
+                <div class="col-md-3">
+                    <figure class="card card-product">
+                        <div class="img-wrap">
+                            <img src="{% static 'images/items/3.jpg' %}">
+                            <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+                        </div>
+                        <figcaption class="info-wrap">
+                            <a href="#" class="title">{{ product.name }}</a>
+                            <div class="action-wrap">
+                                <a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
+                                <div class="price-wrap h5">
+                                    <span class="price-new">R${{ product.price_new }}</span>
+                                    {% if not product.price_old == 0 %}
+                                        <del class="price-old">R${{ product.price_old }}</del>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

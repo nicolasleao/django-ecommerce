@@ -1,5 +1,4 @@
-from django.template import RequestContext, Template
-from app_store.models import Cart
+from app_store.models import Cart, Category
 
 # TODO:
 # Working category_name_processor
@@ -15,5 +14,11 @@ def shopping_cart_processor(request):
     return {'cart': cart}
 
 
-def category_name_processor(request):
-	return None
+def categories_processor(request):
+    # Make queries
+    categories_on_navbar = 3
+    # Get the first n categories on database, n = categories_on_navbar
+    categories = Category.objects.all()[:categories_on_navbar]
+    # Get the last n categories on database
+    categories_more = Category.objects.all()[categories_on_navbar:]
+    return {'categories': categories, 'categories_more': categories_more}
