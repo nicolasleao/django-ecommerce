@@ -1,9 +1,9 @@
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 from app_users.models import CustomUser
 
 # TODO:
-# Allow users to save carts
 # Add configuration fields to STORE
 
 def ProductThumbnailPath(instance):
@@ -11,8 +11,9 @@ def ProductThumbnailPath(instance):
 
 
 class Store(models.Model):
-	user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	name = models.CharField(max_length=60, unique=True, default='')
+	domain = models.CharField(max_length=60, unique=True, default='')
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(auto_now=True)
 

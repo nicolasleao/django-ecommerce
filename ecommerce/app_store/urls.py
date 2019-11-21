@@ -14,7 +14,7 @@ urlpatterns = [
     path('checkout/', views.Checkout, name='checkout'),
 
     # AJAX views
-    path('add-to-cart/', views.AddToCart.as_view(), name='add-to-cart'),
-    path('remove-from-cart/', views.RemoveFromCart.as_view(), name='remove-from-cart'),
+    path('add-to-cart/<str:product_id>/', views.AddToCart.as_view(), name='add-to-cart'),
+    path('remove-from-cart/<str:item_id>/', views.RemoveFromCart.as_view(), name='remove-from-cart'),
 
 ]

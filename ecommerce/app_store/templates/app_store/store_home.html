@@ -39,20 +39,15 @@
                             <div class="col-md-3">
                                 <figure class="card card-product">
                                     <div class="img-wrap">
-                                        <img src="{% static 'images/items/3.jpg' %}">
+                                        <img src="{{ product.image.url }}">
                                         <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
                                     </div>
                                     <figcaption class="info-wrap">
                                         <a href="#" class="title">{{ product.name }}</a>
                                         <div class="action-wrap">
-
-                                            <form method="post" action="{% url 'add-to-cart' %}">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="product_id" value="{{ product.id }}"/>
-                                                <button type="submit" class="btn btn-warning btn-sm float-right"> Add to
-                                                    cart
-                                                </button>
-                                            </form>
+                                            <button class="btn btn-warning btn-sm float-right"
+                                                    onclick="addToCart({{ product.id }})"> Add to cart
+                                            </button>
                                             <div class="price-wrap h5">
                                                 <span class="price-new">R${{ product.price_new }}</span>
 

@@ -58,15 +58,16 @@
 
                             <a href="{% url 'shopping-cart' %}" class="icontext">
                                 <div class="icon-wrap icon-xs bg2 round text-secondary"><i
-                                        class="fa fa-shopping-cart"></i></div>
+                                        class="fa fa-shopping-cart"></i>
+                                </div>
                                 <div class="text-wrap">
                                     <small>Carrinho</small>
 
                                     {% if cart.get_total_items == 1 %}
-                                        <span>{{ cart.get_total_items }} Item</span>
+                                        <span id="cart-text">{{ cart.get_total_items }} item</span>
 
                                     {% else %}
-                                        <span>{{ cart.get_total_items }} Itens</span>
+                                        <span id="cart-text">{{ cart.get_total_items }} itens</span>
                                     {% endif %}
                                 </div>
                             </a>
@@ -189,6 +190,7 @@
 <script src="{% static 'plugins/fancybox/fancybox.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'plugins/owlcarousel/owl.carousel.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/ajax/cart.js' %}" type="text/javascript"></script>
 {% block javascript %}
 {% endblock %}
 </html>

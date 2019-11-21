@@ -24,13 +24,15 @@
                 <div class="col-md-3">
                     <figure class="card card-product">
                         <div class="img-wrap">
-                            <img src="{% static 'images/items/3.jpg' %}">
+                            <img src="{{ product.image.url }}">
                             <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
                         </div>
                         <figcaption class="info-wrap">
                             <a href="#" class="title">{{ product.name }}</a>
                             <div class="action-wrap">
-                                <a href="#" class="btn btn-warning btn-sm float-right"> Add to cart </a>
+                                <button class="btn btn-warning btn-sm float-right"
+                                        onclick="addToCart({{ product.id }})"> Add to cart
+                                </button>
                                 <div class="price-wrap h5">
                                     <span class="price-new">R${{ product.price_new }}</span>
                                     {% if not product.price_old == 0 %}
