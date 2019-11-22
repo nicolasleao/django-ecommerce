@@ -1,10 +1,3 @@
-from django.http import Http404
-from .models import Store
-
-def get_current_store(request):
-    try:
-        current_domain = request.build_absolute_uri('/')
-        store = Store.objects.get(domain=current_domain)
-        return store
-    except Store.DoesNotExist:
-        raise Http404
+# Media upload path factory methods
+def product_thumbnail_path(instance):
+    return '{}/products/images/{}'.format(instance.category.store.name, instance.image.filename)

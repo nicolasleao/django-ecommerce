@@ -1,0 +1,17 @@
+Features:
+- Architecture decouples the Data model, ORM, View, and Template layers 
+using services.py & selectors.py for scalability.
+
+- Selectors for current store, including useful selectors that return a single column, 
+to reduce query size, and therefore, increase performance.
+
+- Selector for product search inside the store
+
+- Selector for top selling products
+
+- AJAX addToCart() javascript function view
+
+- calculateItemTotal() javascript function
+ 
+- started migration from Model-based to COOKIE-based shopping cart to massively reduce queries, 
+since the cart logic will be handled by the client machine.

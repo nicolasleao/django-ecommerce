@@ -63,11 +63,11 @@
                                 <div class="text-wrap">
                                     <small>Carrinho</small>
 
-                                    {% if cart.get_total_items == 1 %}
-                                        <span id="cart-text">{{ cart.get_total_items }} item</span>
+                                    {% if cart.total_items == 1 %}
+                                        <span id="cart-text">{{ cart.total_items }} item</span>
 
                                     {% else %}
-                                        <span id="cart-text">{{ cart.get_total_items }} itens</span>
+                                        <span id="cart-text">{{ cart.total_items }} itens</span>
                                     {% endif %}
                                 </div>
                             </a>

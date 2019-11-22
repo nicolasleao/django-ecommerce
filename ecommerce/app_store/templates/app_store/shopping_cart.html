@@ -11,7 +11,7 @@
             <h5 class="title-section text-muted">Shopping cart</h5>
         </header>
         <br>
-        {% if cart.get_total_items > 0 %}
+        {% if cart.total_items > 0 %}
             <div class="row">
                 <aside class="col-lg-9">
                     <div class="card">
@@ -48,7 +48,7 @@
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <h5 class="price">R$ <span class="price-{{ item.id }}">{{ item.get_total }}</span></h5>
+                                                <h5 class="price">R$ <span class="price-{{ item.id }}">{{ item.total }}</span></h5>
                                                 <small class="text-muted"> (R$ {{ item.product.price_new }} each) </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
@@ -95,7 +95,7 @@
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b"><strong>R$ {{ cart.get_total }}</strong></dd>
+                                <dd class="text-right text-dark b"><strong>R$ {{ cart.total }}</strong></dd>
                             </dl>
                             <hr>
                             <a href="#" class="btn btn-primary btn-block"> Make Purchase </a>
