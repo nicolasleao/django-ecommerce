@@ -1,5 +1,5 @@
 from django.db import models
-from app_store.models import Store, Product
+from app_store.models import Store, StoreContent
 from app_users.models import CustomUser
 
 
@@ -40,19 +40,12 @@ class Payment(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(auto_now=True)
 
+
 class Order(models.Model):
 	def __str__(self):
 		return 'ORDER-'+self.user.username+'-'+self.store.name
 	user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 	store = models.ForeignKey(Store, on_delete=models.CASCADE)
 	total_price = models.FloatField()
-	date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField(auto_now=True)
-
-class Item(models.Model):
-	def __str__(self):
-		return 'ITEM-'+self.purchase.store.name+'-'+self.product.name
-	purchase = models.ForeignKey(Order, on_delete=models.CASCADE)
-	product = models.ForeignKey(Product, on_delete=models.CASCADE)
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(auto_now=True)

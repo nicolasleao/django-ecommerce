@@ -15,8 +15,9 @@ class StoreContent(Postable):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
 
 
-class Category(StoreContent):
-    pass
+class Category(Postable):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    description = models.TextField(default='')
 
 
 class Product(StoreContent):

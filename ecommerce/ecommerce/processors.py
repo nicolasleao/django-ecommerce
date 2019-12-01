@@ -1,12 +1,14 @@
-from app_store.models import Cart, Category
+from app_store.models import Category
+from app_store.services import get_user_cart
 
 # TODO:
 # Working category_name_processor
 
+
 def shopping_cart_processor(request):
     # Try to get the 'cart' instance associated with the current user from the database
     try:
-        cart = Cart.objects.get(user=request.user)
+        cart = get_user_cart(request)
     except:
         # If no cart instance was found in request.COOKIES, return empty cart
         cart = None

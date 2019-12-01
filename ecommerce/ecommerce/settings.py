@@ -131,6 +131,8 @@ ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/store/'
 LOGIN_REDIRECT_URL = '/store/'
 
+# Sessions
+SESSION_SAVE_EVERY_REQUEST=True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
