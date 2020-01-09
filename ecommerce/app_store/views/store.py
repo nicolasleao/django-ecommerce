@@ -3,15 +3,20 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.views.generic.base import View
 from django.views.generic.list import ListView
+
+from ..models import Product
 from ..selectors import find_products, get_top_sellers, get_store_id
-import json
+
 
 # TODO: update cart views to use cookies
 
 
 class StoreHome(View):
     """Displays customized homepage matching the current Store model settings"""
+
     def get(self, request, *args, **kwargs):
+        for product in Product.objects.all():
+            product.save()
         # Make necessary queries
         store_id = get_store_id(request)
         top_sellers = get_top_sellers(store_id, 4)
@@ -38,6 +43,8 @@ class ProductSearchView(ListView):
         query = self.request.GET.get('q')
         if 'category_name' in self.kwargs:
             category = self.kwargs['category_name']
+        else:
+            category = None
 
         context = super().get_context_data(**kwargs)
         # Append additional items to the context of the parent class

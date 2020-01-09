@@ -1,6 +1,8 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
+
 from app_core.models import Postable
 from ..utils import product_thumbnail_path
 
@@ -21,6 +23,7 @@ class Category(Postable):
 
 
 class Product(StoreContent):
+    slug = models.SlugField(blank=True, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_category')
     description = models.TextField(max_length=1200, default='')
     model = models.CharField(max_length=100, default='')
@@ -29,7 +32,9 @@ class Product(StoreContent):
     image = models.ImageField(upload_to=product_thumbnail_path)
     total_sales = models.PositiveIntegerField(default=0, blank=True)
 
-    # TODO: Create product types
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
 
 class Collection(StoreContent):

@@ -1,47 +1,48 @@
+import json
+
+from django.forms.models import model_to_dict
 from django.shortcuts import redirect
+
 from .models import Product
 from .selectors import get_store_name
-import json
 
 
 def get_user_cart(request):
     """Retrieves cart in the present session, or creates an empty cart object"""
     store_name = get_store_name(request)
+    print("STORENAME" + store_name)
     if store_name in request.session:
         cart = request.session[store_name]
+        print("Cart")
+        print(cart)
         return cart
     else:
         cart = {
             'total_items': 0,
-            'items': {},
+            'items': [],
         }
         request.session[store_name] = cart
         # Tell django to save changes to the database
         request.session.modified = True
+        print("Cart")
+        print(cart)
         return cart
 
 
-def add_item(self, product_id):
-    # Try to get the product
-    try:
-        product = Product.objects.get(pk=product_id)
-        # Check if product is already on cart, if so increment item.quantity
-        try:
-            pass
-            # item = Item.objects.get(cart=self, product=product)
-            # item.quantity += 1
-            # item.save()
-            # return item
-        # If product is not already in cart create a new Item instance
-        except AssertionError:  # Item.DoesNotExist:
-            pass
-            # new_item = Item.objects.create(cart=self, product=product, quantity=1)
-    # Return None on failure
-    except Product.DoesNotExist:
-        return None
+def add_item(request, product_id):
+    # Make queries
+    cart = get_user_cart(request)
+    store_name = get_store_name(request)
+    product = Product.objects.get(pk=product_id)
 
-    # Return the new Item instance if it was successfully created
-    # return new_item
+    session_product = (product.id, product.slug, 1)
+
+    # Update session to contain the new items in cart
+    cart['items'].append(session_product)
+    request.session[store_name] = cart
+    request.session.modified = True
+
+    return {'quantity': 1}
 
 
 def remove_item(self, item_id):
