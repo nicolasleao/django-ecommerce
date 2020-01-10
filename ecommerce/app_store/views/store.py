@@ -1,11 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 
 from ..models import Product
-from ..selectors import find_products, get_top_sellers, get_store_id
+from ..selectors import find_products, get_top_sellers, get_store_id, get_user_cart
+from ..services import calculate_discount
 
 
 # TODO: update cart views to use cookies
@@ -57,7 +58,24 @@ class ProductSearchView(ListView):
 class ShoppingCart(View):
     """Displays the user's shopping cart and order summary for the current store"""
     def get(self, request):
-        context = {}
+        # Make necessary queries, populate cart with product instances and calculate total
+        cart = get_user_cart(request)
+        items = []
+        total = 0
+        for item in cart['items']:
+            instance = get_object_or_404(Product, pk=str(item[0]))
+            total += instance.price_new
+            # Each item is stored in a list, with the information stored in the following order
+            # [product_instance, product_quantity, product_total]
+            items.append([instance, item[2], item[2] * instance.price_new])
+
+        coupon = request.GET.get('coupon')
+        total, discount = calculate_discount(coupon, total)
+        context = {
+            'items': items,
+            'total': total,
+            'discount': discount,
+        }
         return render(request, 'app_store/shopping_cart.html', context)
 
 

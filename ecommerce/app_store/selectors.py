@@ -7,7 +7,6 @@ def get_store(request):
     # TODO: remove [:-5] suffix in production
 
     current_domain = request.META['HTTP_HOST'][:-5]
-    # .only(<column>) ensures that the ORM selects only the desired column, simplifying the query
     store = Store.objects.get(domain=current_domain)
     return store
 
@@ -15,28 +14,32 @@ def get_store(request):
 def get_store_name(request):
     """Returns name of the Store instance matching the current domain"""
     current_domain = request.META['HTTP_HOST'][:-5]
-    # .only(<column>) ensures that the ORM selects only the desired column, simplifying the query
-    store = Store.objects.get(domain=current_domain).name
-    return store
+    store_name = Store.objects.get(domain=current_domain).name
+    return store_name
 
 
 def get_store_id(request):
     """Returns id of the Store instance matching the current domain"""
     current_domain = request.META['HTTP_HOST'][:-5]
-    # .only(<column>) ensures that the ORM selects only the desired column, simplifying the query
-    store = Store.objects.get(domain=current_domain).id
-    return store
+    store_id = Store.objects.get(domain=current_domain).id
+    return store_id
 
 
 def get_user_cart(request):
-    """Returns a python dictionary that represents the user's cart for the current store"""
-
-    # TODO: Recreate this function to use cookies
-
-    store = get_store(request)
-    print(store)
-    print(store.name)
-    print(request.COOKIES.get(store.name))
+    """Retrieves cart in the present session, or creates an empty cart object"""
+    store_name = get_store_name(request)
+    if store_name in request.session:
+        cart = request.session[store_name]
+        return cart
+    else:
+        cart = {
+            'total_items': 0,
+            'items': [],
+        }
+        request.session[store_name] = cart
+        # Tell django to save changes to the database
+        request.session.modified = True
+        return cart
 
 
 def find_products(store_id, query):

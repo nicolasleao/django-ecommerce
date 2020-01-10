@@ -1,32 +1,5 @@
-import json
-
-from django.forms.models import model_to_dict
-from django.shortcuts import redirect
-
-from .models import Product
-from .selectors import get_store_name
-
-
-def get_user_cart(request):
-    """Retrieves cart in the present session, or creates an empty cart object"""
-    store_name = get_store_name(request)
-    print("STORENAME" + store_name)
-    if store_name in request.session:
-        cart = request.session[store_name]
-        print("Cart")
-        print(cart)
-        return cart
-    else:
-        cart = {
-            'total_items': 0,
-            'items': [],
-        }
-        request.session[store_name] = cart
-        # Tell django to save changes to the database
-        request.session.modified = True
-        print("Cart")
-        print(cart)
-        return cart
+from .models import Product, Discount
+from .selectors import get_store_name, get_user_cart
 
 
 def add_item(request, product_id):
@@ -35,25 +8,46 @@ def add_item(request, product_id):
     store_name = get_store_name(request)
     product = Product.objects.get(pk=product_id)
 
-    session_product = (product.id, product.slug, 1)
+    for item in cart['items']:
+        if str(item[0]) == str(product_id):
+            item[2] += 1
+            request.session[store_name] = cart
+            request.session.modified = True
+
+            return {'quantity': item[2]}
+
+    new_product = (product.id, product.slug, 1)
 
     # Update session to contain the new items in cart
-    cart['items'].append(session_product)
+    cart['items'].append(new_product)
+    cart['total_items'] += 1
     request.session[store_name] = cart
     request.session.modified = True
 
     return {'quantity': 1}
 
 
-def remove_item(self, item_id):
-    # Try to get and delete item instance
-    try:
-        pass
-        # deleted_item = Item.objects.get(pk=item_id)
-        # deleted_item.delete()
-    # Return false on failure
-    except AssertionError:  # Item.DoesNotExist:
-        return None
+def remove_item(request, product_id):
+    # Make queries
+    cart = get_user_cart(request)
+    store_name = get_store_name(request)
 
-    # Return True on success
-    # return deleted_item
+    for item in cart['items']:
+        if str(item[0]) == str(product_id):
+            cart['items'].remove(item)
+            cart['total_items'] -= 1
+            request.session[store_name] = cart
+            request.session.modified = True
+            # Return True on successful deletion
+            return True
+    # Return False on failure
+    return False
+
+
+def calculate_discount(coupon, total):
+    try:
+        instance = Discount.objects.get(code=coupon)
+        discounted_value = total * (instance.percentage/100)
+        return total - discounted_value, discounted_value
+    except Discount.DoesNotExist:
+        return total, 0

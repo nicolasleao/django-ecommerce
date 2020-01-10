@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic.base import View
 
 from ..selectors import get_user_cart
-from ..services import add_item
+from ..services import add_item, remove_item
 
 
 def get_cart_text(items):
@@ -34,6 +34,6 @@ class RemoveFromCart(View):
     def get(self, request, item_id):
         # Remove product from cart
         cart = get_user_cart(request)
-        item = cart.remove_item(item_id)
+        remove_item(request, item_id)
         # Redirect to shopping cart
         return redirect('shopping-cart')

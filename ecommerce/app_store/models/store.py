@@ -42,7 +42,7 @@ class Collection(StoreContent):
 
 
 class Discount(StoreContent):
-    code = models.CharField(max_length=60, default='')
+    code = models.CharField(max_length=60, default='', unique=True)
     percentage = models.FloatField(default=0)
     expiration_date = models.DateTimeField(default=timezone.now)
     products = models.ManyToManyField(Product)

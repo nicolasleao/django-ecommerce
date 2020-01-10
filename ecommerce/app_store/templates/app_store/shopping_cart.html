@@ -28,33 +28,33 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for item in cart.item_set.all %}
+                                {% for item in items %}
                                     <tr>
                                         <td>
                                             <figure class="itemside align-items-center">
-                                                <div class="aside"><img src="{{ item.product.image.url }}" class="img-sm"></div>
+                                                <div class="aside"><img src="{{ item.0.image.url }}" class="img-sm"></div>
                                                 <figcaption class="info ml-2">
-                                                    <a href="#" class="title text-dark">{{ item.product.name }}</a>
-                                                    <p class="text-muted small">{{ item.product.description|truncatechars:40 }}</p>
+                                                    <a href="#" class="title text-dark">{{ item.0.name }}</a>
+                                                    <p class="text-muted small">{{ item.0.description|truncatechars:40 }}</p>
                                                 </figcaption>
                                             </figure>
                                         </td>
                                         <td>
                                             <input type="number"
                                                    class="cart-item-quantity form-control"
-                                                   data-initial-value="{{ item.product.price_new }}"
-                                                   data-index="{{ item.id }}"
-                                                   value="{{ item.quantity }}">
+                                                   data-initial-value="{{ item.0.price_new }}"
+                                                   data-index="{{ item.0.id }}"
+                                                   value="{{ item.1 }}">
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <h5 class="price">R$ <span class="price-{{ item.id }}">{{ item.total }}</span></h5>
-                                                <small class="text-muted"> (R$ {{ item.product.price_new }} each) </small>
+                                                <h5 class="price">R$ <span class="price-{{ item.0.id }}">{{ item.2 }}</span></h5>
+                                                <small class="text-muted"> (R$ {{ item.0.price_new }} each) </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
                                         <td class="text-right d-none d-md-block">
                                             <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
-                                            <a href="{% url 'remove-from-cart' item.id %}" class="btn btn-light"> Remove</a>
+                                            <a href="{% url 'remove-from-cart' item.0.id %}" class="btn btn-light"> Remove</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -88,14 +88,14 @@
                     <div class="card">
                         <div class="card-body">
                             <dl class="dlist-align">
-                                {% if cart.discount %}
+                                {% if discount %}
                                     <dt>Discount:</dt>
-                                    <dd class="text-right text-danger">- R$ {{ cart.discount }}</dd>
+                                    <dd class="text-right text-danger">- R$ {{ discount }}</dd>
                                 {% endif %}
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b"><strong>R$ {{ cart.total }}</strong></dd>
+                                <dd class="text-right text-dark b"><strong>R$ {{ total }}</strong></dd>
                             </dl>
                             <hr>
                             <a href="#" class="btn btn-primary btn-block"> Make Purchase </a>
