@@ -42,14 +42,14 @@
                                         <td>
                                             <input type="number"
                                                    class="cart-item-quantity form-control"
-                                                   data-initial-value="{{ item.0.price_new }}"
+                                                   data-initial-value="{{ item.0.price_new|floatformat:2 }}"
                                                    data-index="{{ item.0.id }}"
                                                    value="{{ item.1 }}">
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <h5 class="price">R$ <span class="price-{{ item.0.id }}">{{ item.2 }}</span></h5>
-                                                <small class="text-muted"> (R$ {{ item.0.price_new }} each) </small>
+                                                <h5 class="price">R$ <span class="price-{{ item.0.id }}">{{ item.2|floatformat:2 }}</span></h5>
+                                                <small class="text-muted"> (R$ {{ item.0.price_new|floatformat:2 }} each) </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
                                         <td class="text-right d-none d-md-block">
@@ -95,7 +95,7 @@
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b"><strong>R$ {{ total }}</strong></dd>
+                                <dd class="text-right text-dark b"><strong>R$ </strong><span id="cart-total">{{ total|floatformat:2 }}</span></dd>
                             </dl>
                             <hr>
                             <a href="#" class="btn btn-primary btn-block"> Make Purchase </a>

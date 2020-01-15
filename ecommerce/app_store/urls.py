@@ -15,6 +15,7 @@ urlpatterns = [
 
     # AJAX views
     path('add-to-cart/<str:product_id>/', views.AddToCart.as_view(), name='add-to-cart'),
-    path('remove-from-cart/<str:item_id>/', views.RemoveFromCart.as_view(), name='remove-from-cart'),
+    path('remove-from-cart/<str:product_id>/', views.RemoveFromCart.as_view(), name='remove-from-cart'),
+    path('update-item-quantity/<str:product_id>/<str:quantity>/', views.UpdateItemQuantity.as_view(), name='update-item-quantity'),
 
 ]

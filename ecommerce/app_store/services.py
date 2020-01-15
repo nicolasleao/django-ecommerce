@@ -14,7 +14,7 @@ def add_item(request, product_id):
             request.session[store_name] = cart
             request.session.modified = True
 
-            return {'quantity': item[2]}
+            return cart['total_items']
 
     new_product = (product.id, product.slug, 1)
 
@@ -24,7 +24,7 @@ def add_item(request, product_id):
     request.session[store_name] = cart
     request.session.modified = True
 
-    return {'quantity': 1}
+    return cart['total_items']
 
 
 def remove_item(request, product_id):
@@ -44,6 +44,21 @@ def remove_item(request, product_id):
     return False
 
 
+def update_item_quantity(request, product_id, quantity):
+    cart = get_user_cart(request)
+    store_name = get_store_name(request)
+
+    for item in cart['items']:
+        if str(item[0]) == str(product_id):
+            item[2] = int(quantity)
+            request.session[store_name] = cart
+            request.session.modified = True
+            # Return True on successful update
+            return True
+    # Return False on failure
+    return False
+
+
 def calculate_discount(coupon, total):
     try:
         instance = Discount.objects.get(code=coupon)
@@ -51,3 +66,14 @@ def calculate_discount(coupon, total):
         return total - discounted_value, discounted_value
     except Discount.DoesNotExist:
         return total, 0
+
+
+def calculate_cart_total(request):
+    """Returns the total price in the shopping cart"""
+    cart = get_user_cart(request)
+    total = 0.00
+    # Go through each item inside the user's cart and add it's quantity * price to the cart total
+    for item in cart['items']:
+        instance = Product.objects.get(pk=item[0])
+        total += instance.price_new * item[2]
+    return total

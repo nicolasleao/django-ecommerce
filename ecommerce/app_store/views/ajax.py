@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic.base import View
 
 from ..selectors import get_user_cart
-from ..services import add_item, remove_item
+from ..services import add_item, remove_item, update_item_quantity, calculate_cart_total
 
 
 def get_cart_text(items):
@@ -21,9 +21,7 @@ class AddToCart(View):
         # Get or create a cart assigned to the current user
         cart = get_user_cart(request)
         # Use services.add_item() method to update cart in user session
-        add_item(request, product_id)
-        # Use the Cart model's total_items() method to get the new ammount of items
-        total_cart_items = 1
+        total_cart_items = add_item(request, product_id)
         # Generate a new cart text to update the html page
         cart_text = get_cart_text(total_cart_items)
 
@@ -31,9 +29,21 @@ class AddToCart(View):
 
 
 class RemoveFromCart(View):
-    def get(self, request, item_id):
+    def get(self, request, product_id):
         # Remove product from cart
-        cart = get_user_cart(request)
-        remove_item(request, item_id)
+        remove_item(request, product_id)
         # Redirect to shopping cart
         return redirect('shopping-cart')
+
+
+class UpdateItemQuantity(View):
+    def get(self, request, product_id, quantity):
+        # Convert the string quantity received in the url to a float value
+        try:
+            quantity = float(quantity)
+        except ValueError:
+            quantity = 1
+        # Update cart quantity
+        update_item_quantity(request, product_id, quantity)
+        total = calculate_cart_total(request)
+        return JsonResponse({'cart_total': total})

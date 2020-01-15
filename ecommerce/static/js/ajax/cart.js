@@ -7,37 +7,48 @@ function addToCart(product_id) {
 			$('#cart-text').html(data.cart_text);
 		},
 		error: function (data) {
-			alert("Failure!");
+			console.log('Failed to add product to cart');
 		}
 	});
 }
 
-
-// TODO: transform into AJAX function that actually updates database
-// TODO: Update cart total
-function updateTotal(quantity, item_price, item_id) {
-	// Calculate new price with two decimal places
-	var new_price = Number(item_price * quantity).toFixed(2);
-	// Select tag with class price-<item_id> generated in the template
-	$('.price-'+item_id).text(new_price);
+function updateItemQuantity(product_id, product_price, quantity) {
+	$.ajax({
+		// Link to the add-to-cart ajax view passing the user token and the product id
+		url:  '/update-item-quantity/'+product_id+'/'+quantity+'/',
+		success: function  (data) {
+			// Calculate new total price for current item
+			let new_price = (quantity * product_price).toFixed(2);
+			// Update current item's total value
+			$('.price-'+product_id).html(new_price)
+			// Calculate new cart's total value
+			let cart_total = data.cart_total.toFixed(2);
+			// Update cart's total value with the value returned from ajax view
+			$('#cart-total').html(cart_total);
+		},
+		error: function (data) {
+			console.log('Failed to add product to cart');
+		}
+	});
 }
 
 $(document).ready(function () {
 	// Selector for quantity number input
 	$('.cart-item-quantity').change(function (data) {
 		// The quantity will be exactly the current input value
-		var quantity = data.target.valueAsNumber;
-		/*
-		* The item price is passed through the 'data-initial-value' attribute on the template
-		* to make it easier for us to calculate the new total price
-		*/
-		var item_price = $(this).attr('data-initial-value');
-		/*
-		* The item id is passed through the 'data-index' attribute on the template
-		* to make it easier for us to select the corresponding item's total price div
-		*/
-		var item_id = $(this).attr('data-index');
-		var price_tag = $(this).parent().next().children('.price-wrap');
-		updateTotal(quantity, item_price, item_id)
+		let quantity = data.target.valueAsNumber;
+		// Limit quantity to a realistic value between 1 and 1000
+		if(quantity < 1) {
+			quantity = 1;
+			data.target.valueAsNumber = 1;
+		}
+		else if(quantity > 1000) {
+			quantity = 1000;
+			data.target.valueAsNumber = 1000;
+		}
+		let product_id = $(this).attr('data-index');
+		let product_price = $(this).attr('data-initial-value');
+		// Update item quantity and refresh page
+		updateItemQuantity(product_id, product_price, quantity);
 	});
 })

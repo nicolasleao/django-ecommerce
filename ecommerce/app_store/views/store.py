@@ -64,7 +64,7 @@ class ShoppingCart(View):
         total = 0
         for item in cart['items']:
             instance = get_object_or_404(Product, pk=str(item[0]))
-            total += instance.price_new
+            total += instance.price_new * item[2]
             # Each item is stored in a list, with the information stored in the following order
             # [product_instance, product_quantity, product_total]
             items.append([instance, item[2], item[2] * instance.price_new])
