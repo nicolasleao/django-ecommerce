@@ -21,15 +21,16 @@
 
 </head>
 <body>
+<span id="store-name" style="display: none;">{{ store_name }}</span>
 <header class="section-header">
     <section class="header-main">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3">
-                    <a href="{% url 'store-home' %}">
+                    <a href="{% url 'store-home' store_name %}">
                         <div class="brand-wrap">
-                            <img class="logo" src="{% static 'images/logo-dark.png' %}">
-                            <h2 class="logo-text">LOJA</h2>
+                            <img class="logo" src="{% static 'images/logo-dark.png' %}" alt="store logo">
+                            <h2 class="logo-text">{{ store_name }}</h2>
                         </div>
                     </a>
                 </div>
@@ -37,10 +38,11 @@
 
                     <!-- If there's a 'category_name' in the context, use it on search -->
                     {% if category_name %}
-                        <form action="{% url 'product-list' category_name %}" class="search-wrap" method="get">
+                        <form action="{% url 'product-list' store_name category_name %}" class="search-wrap"
+                              method="get">
                         <!-- otherwise, use category 'Tudo' -->
                     {% else %}
-                        <form action="{% url 'product-list' 'Tudo' %}" class="search-wrap" method="get">
+                        <form action="{% url 'product-list' store_name %}" class="search-wrap" method="get">
                     {% endif %}
                     <div class="input-group">
                         <input name="q" type="text" class="form-control" placeholder="Search">
@@ -56,7 +58,7 @@
                     <div class="widgets-wrap d-flex justify-content-end">
                         <div class="widget-header">
 
-                            <a href="{% url 'shopping-cart' %}" class="icontext">
+                            <a href="{% url 'shopping-cart' store_name %}" class="icontext">
                                 <div class="icon-wrap icon-xs bg2 round text-secondary"><i
                                         class="fa fa-shopping-cart"></i>
                                 </div>
@@ -73,7 +75,6 @@
                             </a>
                         </div>
                         <div class="widget-header dropdown">
-
                             {% if user.is_authenticated %}
                                 <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
                                     <div class="icon-wrap icon-xs bg2 round text-secondary"><i class="fa fa-user"></i>
@@ -86,9 +87,8 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#">Configurações</a>
                                     <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="{% url 'account_logout' %}">Sair</a>
+                                    <a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">Sair</a>
                                 </div>
-
                             {% else %}
                                 <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
                                     <div class="icon-wrap icon-xs bg2 round text-secondary"><i class="fa fa-user"></i>
@@ -99,24 +99,60 @@
                                     </div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <form method="post" class="px-4 py-3" action="{% url 'account_login' %}">
-                                        {% csrf_token %}
-                                        <div class="form-group">
-                                            <label>E-mail</label>
-                                            <input name="login" class="form-control" placeholder="Email" type="email">
-                                        </div>
-                                        <div class="form-group">
-                                            <a class="float-right" href="#">Esqueceu?</a>
-                                            <label>Senha</label>
-                                            <input name="password" class="form-control" placeholder="******"
-                                                   type="password">
-                                        </div>
 
-                                        <button type="submit" class="btn btn-primary">Login</button>
-                                    </form>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="login-tab" role="tabpanel"
+                                             aria-labelledby="login-tab">
+                                            <form method="post" class="px-4 py-3"
+                                                  action="{% url 'account_login' %}?next={{ request.path }}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>E-mail</label>
+                                                    <input name="login" class="form-control" placeholder="Email"
+                                                           type="email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <a class="float-right" href="{% url 'account_reset_password' %}">Esqueceu
+                                                        a senha?</a>
+                                                    <label>Senha</label>
+                                                    <input name="password" class="form-control" placeholder="******"
+                                                           type="password">
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Login</button>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane fade" id="register-tab" role="tabpanel"
+                                             aria-labelledby="register-tab">
+                                            <form method="post" class="px-4 py-3"
+                                                  action="{% url 'account_signup' %}?next={{ request.path }}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label>E-mail</label>
+                                                    <input name="email" class="form-control" placeholder="Email"
+                                                           type="email" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Senha</label>
+                                                    <input name="password1" class="form-control" placeholder="******"
+                                                           type="password" required>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
                                     <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="{% url 'account_signup' %}">Ainda não tem uma conta?
-                                        Cadastre-se aqui</a>
+                                    <div class="nav flex-column nav-pills ml-2 mr-2" role="tablist"
+                                         aria-orientation="vertical">
+                                        <a class="nav-link active" data-toggle="pill" href="#login-tab" role="tab"
+                                           aria-controls="login-tab" aria-selected="true">Fazer Login</a>
+                                        <a class="nav-link" data-toggle="pill" href="#register-tab" role="tab"
+                                           aria-controls="register-tab" aria-selected="false">Ainda não tem uma conta?
+                                            Cadastre-se aqui</a>
+                                    </div>
+                                    <a class="dropdown-item" href="{% url 'account_signup' %}"></a>
                                 </div>
                             {% endif %}
                         </div>
@@ -142,7 +178,8 @@
                     </li>
                     {% for category in categories %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">{{ category }}</a>
+                            <a class="nav-link"
+                               href="{% url 'product-list' store_name category.name %}">{{ category }}</a>
                         </li>
                     {% endfor %}
                     {% if categories_more %}

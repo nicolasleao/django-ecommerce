@@ -48,13 +48,18 @@
                                         </td>
                                         <td>
                                             <div class="price-wrap">
-                                                <h5 class="price">R$ <span class="price-{{ item.0.id }}">{{ item.2|floatformat:2 }}</span></h5>
-                                                <small class="text-muted"> (R$ {{ item.0.price_new|floatformat:2 }} each) </small>
+                                                <h5 class="price">R$ <span
+                                                        class="price-{{ item.0.id }}">{{ item.2|floatformat:2 }}</span>
+                                                </h5>
+                                                <small class="text-muted"> (R$ {{ item.0.price_new|floatformat:2 }}
+                                                    each) </small>
                                             </div> <!-- price-wrap .// -->
                                         </td>
                                         <td class="text-right d-none d-md-block">
-                                            <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
-                                            <a href="{% url 'remove-from-cart' item.0.id %}" class="btn btn-light"> Remove</a>
+                                            <a data-original-title="Save to Wishlist" title="" href=""
+                                               class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+                                            <a href="{% url 'remove-from-cart' store_name item.0.id %}"
+                                               class="btn btn-light"> Remove</a>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -95,11 +100,13 @@
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b"><strong>R$ </strong><span id="cart-total">{{ total|floatformat:2 }}</span></dd>
+                                <dd class="text-right text-dark b"><strong>R$ </strong><span
+                                        id="cart-total">{{ total|floatformat:2 }}</span></dd>
                             </dl>
                             <hr>
                             <a href="#" class="btn btn-primary btn-block"> Make Purchase </a>
-                            <a href="{% url 'store-home' %}" class="btn btn-light btn-block">Continue Shopping</a>
+                            <a href="{% url 'store-home' store_name %}" class="btn btn-light btn-block">Continue
+                                Shopping</a>
                         </div> <!-- card-body.// -->
                     </div> <!-- card.// -->
 
@@ -108,7 +115,8 @@
 
         {% else %}
             <p>Você ainda não adicionou nada no carrinho de compras</p><br>
-            <a href="{% url 'store-home' %}" class="btn btn-secondary"><i class="icon fa fa-arrow-left"></i>&ensp;Voltar para a loja</a>
+            <a href="{% url 'store-home' store_name %}" class="btn btn-secondary"><i class="icon fa fa-arrow-left"></i>&ensp;Voltar
+                para a loja</a>
 
 
         {% endif %}

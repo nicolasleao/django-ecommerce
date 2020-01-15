@@ -1,11 +1,10 @@
 from .models import Product, Discount
-from .selectors import get_store_name, get_user_cart
+from .selectors import get_user_cart
 
 
-def add_item(request, product_id):
+def add_item(request, store_name, product_id):
     # Make queries
-    cart = get_user_cart(request)
-    store_name = get_store_name(request)
+    cart = get_user_cart(request, store_name)
     product = Product.objects.get(pk=product_id)
 
     for item in cart['items']:
@@ -27,10 +26,8 @@ def add_item(request, product_id):
     return cart['total_items']
 
 
-def remove_item(request, product_id):
-    # Make queries
-    cart = get_user_cart(request)
-    store_name = get_store_name(request)
+def remove_item(request, store_name, product_id):
+    cart = get_user_cart(request, store_name)
 
     for item in cart['items']:
         if str(item[0]) == str(product_id):
@@ -44,9 +41,8 @@ def remove_item(request, product_id):
     return False
 
 
-def update_item_quantity(request, product_id, quantity):
-    cart = get_user_cart(request)
-    store_name = get_store_name(request)
+def update_item_quantity(request, store_name, product_id, quantity):
+    cart = get_user_cart(request, store_name)
 
     for item in cart['items']:
         if str(item[0]) == str(product_id):
@@ -68,9 +64,9 @@ def calculate_discount(coupon, total):
         return total, 0
 
 
-def calculate_cart_total(request):
+def calculate_cart_total(request, store_name):
     """Returns the total price in the shopping cart"""
-    cart = get_user_cart(request)
+    cart = get_user_cart(request, store_name)
     total = 0.00
     # Go through each item inside the user's cart and add it's quantity * price to the cart total
     for item in cart['items']:

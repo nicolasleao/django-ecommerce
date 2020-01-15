@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 from app_core.models import Postable
-from ..utils import product_thumbnail_path
+from .utils import product_thumbnail_path
 
 
 class Store(Postable):
