@@ -3,30 +3,42 @@
 
 {% block head_title %}Login{% endblock %}
 {% block inner %}
-    <h1>Login</h1>
+    <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Login</h4>
+            <form class="login" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
 
-    {% get_providers as socialaccount_providers %}
+                {{ form.non_field_errors }}
+                {{ form.login.errors }}
+                <div class="form-group">
+                    <input class="form-control" type="email" name="login" placeholder="E-mail" autofocus="autofocus"
+                           required id="id_login">
+                </div> <!-- form-group// -->
+                {{ form.password.errors }}
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Senha" required
+                           id="id_password">
+                </div> <!-- form-group// -->
 
-    <form class="login" method="POST" action="{% url 'account_login' %}">
-        {% csrf_token %}
-        {{ form }}
-        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Esqueceu a senha?</a>
-        <button class="primaryAction btn btn-primary" type="submit">Login</button>
-    </form>
+                <div class="form-group">
+                    <a class="float-right" href="{% url 'account_reset_password' %}">Esqueceu a senha?</a>
+                    <label class="float-left custom-control custom-checkbox"> <input type="checkbox"
+                                                                                     class="custom-control-input"
+                                                                                     checked="">
+                        <div class="custom-control-label"> Remember</div>
+                    </label>
+                </div> <!-- form-group form-check .// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Login</button>
+                    <a href="#" class="btn btn-danger btn-block mb-4"> <i class="fab fa-google"></i> &nbsp Login com
+                        Google</a>
+                </div> <!-- form-group// -->
+            </form>
+        </div> <!-- card-body.// -->
+    </div> <!-- card .// -->
 
-    {% if socialaccount_providers %}
-        <div class="socialaccount_ballot">
-            <ul class="socialaccount_providers">
-                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-            </ul>
-
-        </div>
-
-        {% include "socialaccount/snippets/login_extra.html" %}
-
-    {% endif %}
-
-    <p>Ainda não tem uma conta?
+    <p class="text-center mt-4">Ainda não tem uma conta?
         <a href="{{ signup_url }}">Cadastre-se aqui.</a></p>
-
+    <br><br>
 {% endblock %}

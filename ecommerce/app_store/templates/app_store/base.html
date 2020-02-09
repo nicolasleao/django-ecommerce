@@ -57,49 +57,23 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="widgets-wrap d-flex justify-content-end">
                         <div class="widget-header">
-
-                            <a href="{% url 'shopping-cart' store_name %}" class="icontext">
-                                <div class="icon-wrap icon-xs bg2 round text-secondary"><i
-                                        class="fa fa-shopping-cart"></i>
-                                </div>
-                                <div class="text-wrap">
-                                    <small>Carrinho</small>
-
-                                    {% if cart.total_items == 1 %}
-                                        <span id="cart-text">{{ cart.total_items }} item</span>
-
-                                    {% else %}
-                                        <span id="cart-text">{{ cart.total_items }} itens</span>
-                                    {% endif %}
-                                </div>
-                            </a>
+                            <a href="{% url 'shopping-cart' store_name %}" class="icon icon-sm rounded-circle border"><i
+                                    class="fa fa-shopping-cart"></i></a>
+                            <span class="badge badge-pill badge-danger notify">{{ cart.total_items }}</span>
                         </div>
                         <div class="widget-header dropdown">
                             {% if user.is_authenticated %}
-                                <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
-                                    <div class="icon-wrap icon-xs bg2 round text-secondary"><i class="fa fa-user"></i>
-                                    </div>
-                                    <div class="text-wrap">
-                                        <small>Meu Perfil</small>
-                                        <span>{{ user.username }}&ensp;<i class="fa fa-caret-down"></i></span>
-                                    </div>
-                                </a>
+                                <a href="#" data-toggle="dropdown" class="icon icon-sm rounded-circle border"><i
+                                        class="fa fa-user"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#">Configurações</a>
                                     <hr class="dropdown-divider">
                                     <a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">Sair</a>
                                 </div>
                             {% else %}
-                                <a href="#" class="ml-3 icontext" data-toggle="dropdown" data-offset="20,10">
-                                    <div class="icon-wrap icon-xs bg2 round text-secondary"><i class="fa fa-user"></i>
-                                    </div>
-                                    <div class="text-wrap">
-                                        <small>Login | Cadastro</small>
-                                        <span>Conta <i class="fa fa-caret-down"></i></span>
-                                    </div>
-                                </a>
+                                <a href="#" data-toggle="dropdown" class="icon icon-sm rounded-circle border"><i
+                                        class="fa fa-user"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right">
-
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="login-tab" role="tabpanel"
                                              aria-labelledby="login-tab">

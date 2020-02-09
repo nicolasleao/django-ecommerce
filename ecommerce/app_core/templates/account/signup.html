@@ -3,17 +3,52 @@
 {% block head_title %}Cadastro{% endblock %}
 
 {% block inner %}
-    <h1>Sign Up</h1>
-
-    <p>Already have an account? Then please <a href="{{ login_url }}">sign in</a>.</p>
-
-    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-        {% csrf_token %}
-        {{ form }}
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-        {% endif %}
-        <button class="btn btn-primary" type="submit">Sign Up &raquo;</button>
-    </form>
+    <div class="card mx-auto" style="max-width:520px; margin-top:100px;">
+        <article class="card-body">
+            <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
+            <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {{ form.first_name.errors }}
+                {{ form.last_name.errors }}
+                <div class="form-row">
+                    <div class="col form-group">
+                        <input type="text" class="form-control" placeholder="Nome">
+                    </div> <!-- form-group end.// -->
+                    <div class="col form-group">
+                        <input type="text" class="form-control" placeholder="Sobrenome">
+                    </div> <!-- form-group end.// -->
+                </div> <!-- form-row end.// -->
+                {{ form.email.errors }}
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="E-mail" required id="id_email">
+                </div> <!-- form-group end.// -->
+                {{ form.password1.errors }}
+                {{ form.password2.errors }}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input class="form-control" type="password" name="password1" placeholder="Senha" required
+                               id="id_password1">
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group col-md-6">
+                        <input class="form-control" type="password" name="password2" placeholder="Confirmação de senha"
+                               required id="id_password2">
+                    </div> <!-- form-group end.// -->
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Register</button>
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <label class="custom-control custom-checkbox"> <input type="checkbox" class="custom-control-input"
+                                                                          checked="">
+                        <div class="custom-control-label"> Eu li e concordo com os <a href="#">termos de uso e
+                            privacidade.</a></div>
+                    </label>
+                </div> <!-- form-group end.// -->
+            </form>
+        </article><!-- card-body.// -->
+    </div> <!-- card .// -->
+    <p class="text-center mt-4">Já tem uma conta? <a href="{{ login_url }}">Login</a></p>
+    <br><br>
 
 {% endblock %}
